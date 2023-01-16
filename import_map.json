@@ -1,6 +1,7 @@
 {
   "imports": {
     "react": "https://esm.sh/react@18",
+    "react-native-webview": "https://esm.sh/react-native-webview@11.26.0",
     "jotai": "https://esm.sh/jotai@1.7.5",
     "jotai/utils": "https://esm.sh/jotai@1.7.5/utils"
   }

@@ -3,6 +3,7 @@ import { Socket } from "../socket.ts";
 import { createIosSocket } from "../glue/ios.ts";
 import { createAndroidSocket } from "../glue/android.ts";
 import { createParentWindowSocket } from "../glue/parent-window.ts";
+import { createReactNativeSocket } from "../glue/react-native.ts";
 
 export type UnsubscribeFn = () => void;
 export type SetSocketFn = (socket?: Socket, error?: Error) => void;
@@ -29,7 +30,7 @@ export function subscribeParentSocket(set: SetSocketFn): UnsubscribeFn {
       }
     })();
   } else {
-    getAndroidOrIosSocket().then(
+    getMobileAppSocket().then(
       (socket) => run && set(socket),
     ).catch(
       (error) => run && set(undefined, error),
@@ -38,9 +39,9 @@ export function subscribeParentSocket(set: SetSocketFn): UnsubscribeFn {
   return unsubscribe;
 }
 
-async function getAndroidOrIosSocket(): Promise<Socket | undefined> {
+async function getMobileAppSocket(): Promise<Socket | undefined> {
   try {
-    return await Promise.any([createAndroidSocket(), createIosSocket()]);
+    return await Promise.any([createAndroidSocket(), createIosSocket(), createReactNativeSocket()]);
   } catch {}
   return;
 }
